@@ -19,6 +19,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 import pandas as pd
 from apps.data.database import database
+import platform
 
 class Simulation():
 
@@ -26,8 +27,13 @@ class Simulation():
     def __init__(self):
 
         super().__init__()
-        self.path = os.getcwd() + "\\data"
-        self.profits = pd.read_csv(f"{self.path}\\profits.csv")
+        data_str=""
+        if platform.system() == "Linux":
+            data_str = "/data/"
+        elif platform.system() == "Windows":
+            data_str = "\\data\\"
+        self.path = os.getcwd() + data_str
+        self.profits = pd.read_csv(f"{self.path}profits.csv")
 
     def app(self):
 

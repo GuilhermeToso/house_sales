@@ -17,8 +17,7 @@ import os
 import streamlit as st
 import numpy as np
 import PIL
-
-
+import platform
 
 class Home():
 
@@ -26,9 +25,13 @@ class Home():
     def __init__(self):
 
         super().__init__()
-
-        self.path = os.getcwd() + '\\apps\\assets'
-        self.img = np.asarray(PIL.Image.open(f"{self.path}\\king_county.jpg").resize((520,400)))
+        assets_str=""
+        if platform.system() == "Linux":
+            assets_str = "/apps/assets/"
+        elif platform.system() == "Windows":
+            assets_str = "\\apps\\assets\\"
+        self.path = os.getcwd() + assets_str
+        self.img = np.asarray(PIL.Image.open(f"{self.path}king_county.jpg").resize((520,400)))
 
 
     def app(self):

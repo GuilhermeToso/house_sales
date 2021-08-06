@@ -20,12 +20,16 @@ from apps.views import Home, Dashboard, Prediction, Simulation
 
 
 st.set_page_config(layout="wide")
+def app():
+    
+    nav = Navigator()
 
-app = Navigator()
+    nav.add_page('Home', Home().app)
+    nav.add_page('Dashboard', Dashboard().app)
+    nav.add_page('Prediction', Prediction().app)
+    nav.add_page('Simulation', Simulation().app)
 
-app.add_page('Home', Home().app)
-app.add_page('Dashboard', Dashboard().app)
-app.add_page('Prediction', Prediction().app)
-app.add_page('Simulation', Simulation().app)
+    nav.run()
 
-app.run()
+if __name__=='__main__':
+    app = app()

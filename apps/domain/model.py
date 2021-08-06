@@ -12,10 +12,16 @@ Description:
 
 """
 
+import platform
 import os
-PATH = os.getcwd() + "\\models"
+model_str=""
+if platform.system() == "Linux":
+    model_str = "/models/"
+elif platform.system() == "Windows":
+    model_str = "\\models\\"
+PATH = os.getcwd() + model_str
 import joblib
 
 
-regressor = joblib.load(f"{PATH}\\XGBRegressor_RandomizedSearchCV_Best_Model.pkl")
+regressor = joblib.load(f"{PATH}XGBRegressor_RandomizedSearchCV_Best_Model.pkl")
 

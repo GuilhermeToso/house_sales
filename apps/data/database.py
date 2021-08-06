@@ -14,6 +14,7 @@ Description:
 import os
 import pandas as pd
 import geojson
+import platform
 
 class Database():
 
@@ -27,10 +28,14 @@ class Database():
 
     def __init__(self):
         super().__init__()
+        data_str=""
+        if platform.system() == "Linux":
+            data_str = "/data/"
+        elif platform.system() == "Windows":
+            data_str = "\\data\\"
+        self.path = os.getcwd() + data_str
 
-        self.path = os.getcwd() + "\\data"
-
-        self.dataset = pd.read_csv(f"{self.path}\\data_clean.csv", sep=",")
+        self.dataset = pd.read_csv(f"{self.path}data_clean.csv", sep=",")
         self.temp_data = self.dataset.copy()
 
         self.numerical_features = ['sqft_living','sqft_lot','sqft_above','sqft_basement','yr_built',
@@ -46,7 +51,7 @@ class Database():
         self.price_median = self.temp_data.price.median()
         self.samples = self.temp_data.shape[0]
         self.price_corr = self.temp_data.corr().loc['price'].to_frame().sort_values(by=['price'], ascending=False)[1:6]
-        with open(f'{self.path}\\kc_zipcode.geojson') as f:
+        with open(f'{self.path}kc_zipcode.geojson') as f:
             self.gj = geojson.load(f)
     def get_mean(self):
 

@@ -48,8 +48,3 @@ def row(elements):
         row_str += element
     row_str += "</div>"
     return row_str
-# def title(value):
-
-#     component = components.v1.html(f"""
-#         <h1>{value}<h1/>
-#     """)
