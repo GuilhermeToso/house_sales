@@ -35,24 +35,19 @@ class Dashboard():
         filter_1, filter_2, filter_3, filter_4 = st.beta_columns(4)
         with filter_1:
             price = st.number_input('Price', min_value=0.0, max_value=2500000.0,step=0.01, value=2500000.0)
-            database.temp_data = database.temp_data[database.dataset.price <= price]
-            database.update()
         with filter_2: 
             living_area = st.number_input('Living Area', min_value=290.0, max_value=13540.0,step=0.01, value=13540.0)
-            database.temp_data = database.temp_data[database.dataset.sqft_living <= living_area]
-            database.update()
         with filter_3:
             grade = st.number_input('Grade', min_value=1, max_value=13,step=1, value=13)
-            database.temp_data = database.temp_data[database.dataset.grade <= grade]
-            database.update()
         with filter_4:
             renovation = st.selectbox(label="The house were renovated? ",options=('Yes','No','Both'))
-            if renovation == 'Both':
-                database.temp_data = database.temp_data.loc[database.dataset['renovated'].isin(['Yes','No'])]
+        query = f"price <= {price} & sqft_living <= {living_area} & grade <= {grade}"
+        if renovation!="Both":
+            query = query + f'& renovated=="{renovation}"'
+        print(query)
+        database.temp_data = database.dataset.query(query)
+        database.update()
 
-            else:
-                database.temp_data = database.dataset[database.dataset.renovated == renovation]
-                database.update()
         st.markdown("""---""")
         margin = 1
         cards = [card("Price Mean",database.price_mean,margin),card("Max Price",database.price_max,margin),
