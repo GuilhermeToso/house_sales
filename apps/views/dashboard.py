@@ -44,7 +44,7 @@ class Dashboard():
         query = f"price <= {price} & sqft_living <= {living_area} & grade <= {grade}"
         if renovation!="Both":
             query = query + f'& renovated=="{renovation}"'
-        print(query)
+
         database.temp_data = database.dataset.query(query)
         database.update()
 
